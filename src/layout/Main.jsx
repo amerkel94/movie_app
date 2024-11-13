@@ -19,7 +19,7 @@ class Main extends Component {
     this.setState({ loading: true });
 
     fetch(
-      `http://www.omdbapi.com/?apikey=${API_KEY}&s=${str}${
+      `https://www.omdbapi.com/?apikey=${API_KEY}&s=${str}${
         type === 'all' ? '' : `&type=${type}`
       }`
     )
@@ -30,7 +30,10 @@ class Main extends Component {
         return response.json();
       })
       .then((data) => this.setState({ movies: data.Search, loading: false }))
-      .catch((error) => this.setState({ error: error.message }));
+      .catch((error) => {
+        console.error(error);
+        this.setState({ loading: false });
+      });
   };
 
   render() {
